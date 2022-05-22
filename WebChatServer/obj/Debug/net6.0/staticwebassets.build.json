@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "dz3RMkm/c+ETRd5lXWmwBj2z3eVloxPL7DibDnzavik=",
+  "Source": "WebChatServer",
+  "BasePath": "_content/WebChatServer",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

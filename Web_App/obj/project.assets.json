@@ -8,24 +8,26 @@
     "net6.0": []
   },
   "packageFolders": {
-    "/Users/hodamar/.nuget/packages/": {}
+    "C:\\Users\\ofeka\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/hodamar/Projects/WebChatServer/Web_App/Web_App.csproj",
+      "projectUniqueName": "C:\\Users\\ofeka\\Source\\Repos\\SeverEx2\\Web_App\\Web_App.csproj",
       "projectName": "Web_App",
-      "projectPath": "/Users/hodamar/Projects/WebChatServer/Web_App/Web_App.csproj",
-      "packagesPath": "/Users/hodamar/.nuget/packages/",
-      "outputPath": "/Users/hodamar/Projects/WebChatServer/Web_App/obj/",
+      "projectPath": "C:\\Users\\ofeka\\Source\\Repos\\SeverEx2\\Web_App\\Web_App.csproj",
+      "packagesPath": "C:\\Users\\ofeka\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ofeka\\Source\\Repos\\SeverEx2\\Web_App\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/hodamar/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\ofeka\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -61,7 +63,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.203/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vEl5d1mwkFnbv2oUHrqByrvKlFGq2xjenOobcvM30fs9BRG1XWwDpPJcOfQYqyTyAAOGaZN4Ze336tLyFm1zag==",
+  "dgSpecHash": "GF7BFVOMy8P7VfE1YizpIeYskzk+F28Rla58DXpyPHj69NnmntzV4rlluc18wrO3S1OzPrIVOLJO3i3B3oVhNg==",
   "success": true,
-  "projectFilePath": "/Users/hodamar/Projects/WebChatServer/Web_App/Web_App.csproj",
+  "projectFilePath": "C:\\Users\\ofeka\\Source\\Repos\\SeverEx2\\Web_App\\Web_App.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
