@@ -1,0 +1,26 @@
+﻿@model Rate
+<h1>Edit Review</h1>
+<form method="post" asp-action="Edit">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Name</label>
+        <input type="text" class="form-control" name="name" value="@Model.Name">
+        <div id="name" class="form-text"></div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Review</label>
+        <input type="text" class="form-control" id="review" name="content" value="@Model.Content">
+    </div>
+    <br />
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group me-2" role="group" aria-label="First group" value ="@Model.Score">
+            <button type="button" class="btn btn-primary" name="score" value="1">1</button>
+            <button type="button" class="btn btn-primary" name="score" value="2">2</button>
+            <button type="button" class="btn btn-primary" name="score">3</button>
+            <button type="button" class="btn btn-primary" name="score">4</button>
+            <button type="button" class="btn btn-primary" name="score">5</button>
+        </div>
+    </div>
+    <div id="submit">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
