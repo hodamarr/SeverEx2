@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ofeka\\Source\\Repos\\SeverEx2\\Web_App\\Web_App.csproj": {}
+    "C:\\Users\\ofeka\\source\\repos\\SeverEx2\\Web_App\\Web_App.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ofeka\\Source\\Repos\\SeverEx2\\Web_App\\Web_App.csproj": {
+    "C:\\Users\\ofeka\\source\\repos\\SeverEx2\\Web_App\\Web_App.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ofeka\\Source\\Repos\\SeverEx2\\Web_App\\Web_App.csproj",
+        "projectUniqueName": "C:\\Users\\ofeka\\source\\repos\\SeverEx2\\Web_App\\Web_App.csproj",
         "projectName": "Web_App",
-        "projectPath": "C:\\Users\\ofeka\\Source\\Repos\\SeverEx2\\Web_App\\Web_App.csproj",
+        "projectPath": "C:\\Users\\ofeka\\source\\repos\\SeverEx2\\Web_App\\Web_App.csproj",
         "packagesPath": "C:\\Users\\ofeka\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ofeka\\Source\\Repos\\SeverEx2\\Web_App\\obj\\",
+        "outputPath": "C:\\Users\\ofeka\\source\\repos\\SeverEx2\\Web_App\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ofeka\\AppData\\Roaming\\NuGet\\NuGet.Config",

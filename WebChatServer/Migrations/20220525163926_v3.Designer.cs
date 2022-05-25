@@ -12,8 +12,8 @@ using WebChatServer.Data;
 namespace WebChatServer.Migrations
 {
     [DbContext(typeof(WebChatServerContext))]
-    [Migration("20220522172218_init")]
-    partial class init
+    [Migration("20220525163926_v3")]
+    partial class v3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,7 @@ namespace WebChatServer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("WebChatServer.Contact", b =>
+            modelBuilder.Entity("WebChatServer.Models.Contact", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -37,12 +37,18 @@ namespace WebChatServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Contact");
                 });
 
-            modelBuilder.Entity("WebChatServer.Message", b =>
+            modelBuilder.Entity("WebChatServer.Models.Message", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,17 +57,18 @@ namespace WebChatServer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ContactId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Self")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("Time")
+                    b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("Sent")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -70,16 +77,54 @@ namespace WebChatServer.Migrations
                     b.ToTable("Message");
                 });
 
-            modelBuilder.Entity("WebChatServer.Message", b =>
+            modelBuilder.Entity("WebChatServer.Models.User", b =>
                 {
-                    b.HasOne("WebChatServer.Contact", null)
-                        .WithMany("Msgs")
-                        .HasForeignKey("ContactId");
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nick")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("name");
+
+                    b.ToTable("User");
                 });
 
-            modelBuilder.Entity("WebChatServer.Contact", b =>
+            modelBuilder.Entity("WebChatServer.Models.Contact", b =>
+                {
+                    b.HasOne("WebChatServer.Models.User", null)
+                        .WithMany("chats")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebChatServer.Models.Message", b =>
+                {
+                    b.HasOne("WebChatServer.Models.Contact", null)
+                        .WithMany("Msgs")
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebChatServer.Models.Contact", b =>
                 {
                     b.Navigation("Msgs");
+                });
+
+            modelBuilder.Entity("WebChatServer.Models.User", b =>
+                {
+                    b.Navigation("chats");
                 });
 #pragma warning restore 612, 618
         }

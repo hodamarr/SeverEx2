@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Web.Http.Cors;
 using WebChatServer.Data;
+using WebChatServer.Models;
 
 namespace WebChatServer.Controllers
 {
@@ -14,111 +17,17 @@ namespace WebChatServer.Controllers
         }
 
 
-        // GET: Contacts
-        [HttpGet]
+        // GET: api/Contacts
+        [HttpGet("api/contacts/")]
         public async Task<IActionResult> Get()
         {
-            if (_context.Contact == null)
-            {
-                return NotFound();
-            }
             return Json(await _context.Contact.ToListAsync());
         }
 
 
-        // GET: Contacts/id
-        [HttpGet("{id}")]
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null || _context.Contact == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var contact = await _context.Contact
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (contact == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Json(contact);
-        //}
-
-        // GET: Contacts/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Contacts/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Contact contact)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(contact);
-                await _context.SaveChangesAsync();
-                //return RedirectToAction(nameof(Index));
-            }
-            return BadRequest();
-        }
-
-
-        // GET: Contacts/Edit/5
-        [HttpPut("{id}")]
-
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Contact == null)
-            {
-                return NotFound();
-            }
-
-            var contact = await _context.Contact.FindAsync(id);
-            if (contact == null)
-            {
-                return NotFound();
-            }
-            return View(contact);
-        }
-
-        // POST: api/Contacts/5
-        [HttpPut]
-        [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Contact contact)
-        //{
-        //    if (id != contact.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(contact);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ContactExists(contact.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(contact);
-        //}
-
-        // GET: Contacts/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        // GET: api/Contacts/id
+        [HttpGet("api/contacts/{id}")]
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null || _context.Contact == null)
             {
@@ -132,27 +41,92 @@ namespace WebChatServer.Controllers
                 return NotFound();
             }
 
-            return View(contact);
+            return Json(contact);
         }
 
-        // POST: Contacts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+
+        // POST: api/Contacts
+        [HttpPost("api/contacts/")]
+        public async Task<IActionResult> Create([FromBody] Contact contact)
         {
-            if (_context.Contact == null)
+            if (ModelState.IsValid)
             {
-                return Problem("Entity set 'WebChatServerContext.Contact'  is null.");
+                _context.Add(contact);
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+                return Created(string.Format("/api/Contacts/{0}", contact.Id), null);
+                //return RedirectToAction(nameof(Index));
             }
-            var contact = await _context.Contact.FindAsync(id);
-            if (contact != null)
+            return BadRequest();
+        }
+
+
+        // Put: api/Contacts/5
+        [HttpPut("api/contacts/{id}")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, [FromBody] EditContactData contact)
+        {
+            var toChange = await _context.Contact.FindAsync(id);
+
+            if (toChange == null)
             {
-                _context.Contact.Remove(contact);
+                return NotFound();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    toChange.Name = contact.Name;
+                    toChange.Server = contact.Server;
+                    _context.Contact.Update(toChange);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ContactExists(toChange.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return NoContent();
+            }
+            return BadRequest();
         }
+
+        // GET: Contacts/Delete/5
+        [HttpDelete("api/contacts/{id}")]
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (id == null || _context.Contact == null)
+            {
+                return NotFound();
+            }
+
+            var contact = await _context.Contact
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (contact == null)
+            {
+                return NotFound();
+            }
+            _context.Contact.Remove(contact);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+
+      
 
         private bool ContactExists(string id)
         {

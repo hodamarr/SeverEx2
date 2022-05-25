@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ofeka\\Source\\Repos\\SeverEx2\\WebChatServer\\WebChatServer.csproj": {}
+    "C:\\Users\\ofeka\\source\\repos\\SeverEx2\\WebChatServer\\WebChatServer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ofeka\\Source\\Repos\\SeverEx2\\WebChatServer\\WebChatServer.csproj": {
+    "C:\\Users\\ofeka\\source\\repos\\SeverEx2\\WebChatServer\\WebChatServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ofeka\\Source\\Repos\\SeverEx2\\WebChatServer\\WebChatServer.csproj",
+        "projectUniqueName": "C:\\Users\\ofeka\\source\\repos\\SeverEx2\\WebChatServer\\WebChatServer.csproj",
         "projectName": "WebChatServer",
-        "projectPath": "C:\\Users\\ofeka\\Source\\Repos\\SeverEx2\\WebChatServer\\WebChatServer.csproj",
+        "projectPath": "C:\\Users\\ofeka\\source\\repos\\SeverEx2\\WebChatServer\\WebChatServer.csproj",
         "packagesPath": "C:\\Users\\ofeka\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ofeka\\Source\\Repos\\SeverEx2\\WebChatServer\\obj\\",
+        "outputPath": "C:\\Users\\ofeka\\source\\repos\\SeverEx2\\WebChatServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ofeka\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNet.WebApi.Cors": {
+              "target": "Package",
+              "version": "[5.2.8, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[6.0.5, )"
@@ -53,6 +57,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[6.0.5, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[6.0.1, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WebChatServer;
+using WebChatServer.Models;
 
 namespace WebChatServer.Data
 {
@@ -14,6 +14,11 @@ namespace WebChatServer.Data
         {
         }
 
-        public DbSet<WebChatServer.Contact>? Contact { get; set; }
+        public DbSet<WebChatServer.Models.Contact>? Contact { get; set; }
+
+        public DbSet<WebChatServer.Models.Message>? Message { get; set; }
+
+        public DbSet<WebChatServer.Models.User>? User { get; set; }
+
     }
 }

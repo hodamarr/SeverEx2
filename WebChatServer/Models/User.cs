@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebChatServer
+namespace WebChatServer.Models
 {
     public class User
     {
@@ -13,6 +13,6 @@ namespace WebChatServer
 
         public string image { get; set; }
 
-        public List<Contact> chats { get; set; }
+        //public List<Contact> chats { get; set; }
     }
 }

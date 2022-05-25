@@ -263,3 +263,10 @@ C:\Users\ofeka\Source\Repos\SeverEx2\WebChatServer\obj\Debug\net6.0\WebChatServe
 C:\Users\ofeka\Source\Repos\SeverEx2\WebChatServer\obj\Debug\net6.0\ref\WebChatServer.dll
 C:\Users\ofeka\Source\Repos\SeverEx2\WebChatServer\obj\Debug\net6.0\WebChatServer.RazorAssemblyInfo.cache
 C:\Users\ofeka\Source\Repos\SeverEx2\WebChatServer\obj\Debug\net6.0\WebChatServer.RazorAssemblyInfo.cs
+C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\MySqlConnector.dll
+C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\System.Web.Cors.dll
+C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\System.Net.Http.Formatting.dll
+C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\System.Web.Http.dll
+C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\System.Web.Http.Cors.dll
+C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
