@@ -21,7 +21,13 @@ namespace WebChatServer.Controllers
         [HttpGet("api/contacts/")]
         public async Task<IActionResult> Get()
         {
-            return Json(await _context.Contact.ToListAsync());
+            var user = await _context.User
+            .FirstOrDefaultAsync(m => m.Name == "me");
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Json(await _context.Contact.Where(Contact => Contact.UserName == user.Name).ToListAsync());
         }
 
 
@@ -47,23 +53,30 @@ namespace WebChatServer.Controllers
 
         // POST: api/Contacts
         [HttpPost("api/contacts/")]
-        public async Task<IActionResult> Create([FromBody] Contact contact)
+        public async Task<IActionResult> Create([FromBody] AddContactData data)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(contact);
+                User user = await _context.User
+                .FirstOrDefaultAsync(m => m.Name == "me");
+                Contact contact = new(data.Id, data.Name, data.Server, user);
+                _context.Contact.Add(contact);
+                _context.Update(user);
                 try
                 {
+
                     await _context.SaveChangesAsync();
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
                 }
-                return Created(string.Format("/api/Contacts/{0}", contact.Id), null);
-                //return RedirectToAction(nameof(Index));
+                //return Created(string.Format("/api/contacts/{0}", contact.Id), null);
+                return Ok();
             }
             return BadRequest();
+
+         
         }
 
 

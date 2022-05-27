@@ -30,7 +30,6 @@ namespace WebChatServer.Controllers
             {
                 return NotFound();
             }
-            List<Message> messages = await _context.Message.ToListAsync();
             return Json(await _context.Message.Where(Message => Message.ContactId == contact.Id).ToListAsync());
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
@@ -20,16 +21,27 @@ namespace WebChatServer.Models
         [Required]
         public string Server { get; set; }
 
-        [JsonIgnore]
-        public List<Message>? Msgs { get; set; }
-
-        //[JsonIgnore]
-        //public string UserId { get; set; }
-
-        public string? Last {get; set; }
+        public string? Last { get; set; }
 
         public DateTime? Lastdate { get; set; }
 
+        [JsonIgnore]
+        public List<Message>? Msgs { get; set; }
+
+        [JsonIgnore]
+        public string UserName { get; set; }
+
+
+        public Contact(string id, string name, string server, User user2)
+        {
+            Id = id;
+            Name = name;
+            Server = server;
+            Msgs = new List<Message>();
+            Last = null;
+            Lastdate = null;
+            UserName = user2.Name;
+        }
         public Contact(string id, string name, string server)
         {
             Id = id;
@@ -38,8 +50,7 @@ namespace WebChatServer.Models
             Msgs = new List<Message>();
             Last = null;
             Lastdate = null;
-            //ADD CONNECTED USER ID
-            //UserId = "me";
+            UserName = "";
         }
     }
 }

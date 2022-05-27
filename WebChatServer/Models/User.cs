@@ -1,18 +1,28 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace WebChatServer.Models
 {
     public class User
     {
         [Key]
-        public string name { get; set; }
-        public string nick { get; set; }
+        public string Name { get; set; }
+        public string Nick { get; set; }
 
         [DataType(DataType.Password)]
-        public string password { get; set; }
+        public string Password { get; set; }
 
-        public string image { get; set; }
+        public string Server { get; set; }
 
-        //public List<Contact> chats { get; set; }
+        [JsonIgnore]
+        public List<Contact> Chats { get; set; }
+
+        public User(string name, string nick, string password, string server)
+        {
+            Name = name;
+            Nick = nick;
+            Password = password;
+            Server = server;
+        }
     }
 }

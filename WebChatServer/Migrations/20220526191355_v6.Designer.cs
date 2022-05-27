@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebChatServer.Data;
 
@@ -11,9 +12,10 @@ using WebChatServer.Data;
 namespace WebChatServer.Migrations
 {
     [DbContext(typeof(WebChatServerContext))]
-    partial class WebChatServerContextModelSnapshot : ModelSnapshot
+    [Migration("20220526191355_v6")]
+    partial class v6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,7 +44,6 @@ namespace WebChatServer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -107,9 +108,7 @@ namespace WebChatServer.Migrations
                 {
                     b.HasOne("WebChatServer.Models.User", null)
                         .WithMany("Chats")
-                        .HasForeignKey("UserName")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserName");
                 });
 
             modelBuilder.Entity("WebChatServer.Models.Message", b =>
