@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -21,7 +22,7 @@ namespace WebChatServer.Controllers
 
 
         // GET: api/Contacts/5/messages
-        [HttpGet("api/contacts/{id}/messages")]
+        [HttpGet("api/contacts/{id}/messages/")]
         public async Task<IActionResult> GetMessages(string id)
         {
             var contact = await _context.Contact
@@ -58,7 +59,7 @@ namespace WebChatServer.Controllers
         }
 
         // POST: api/Contacts/5/messages
-        [HttpPost("api/contacts/{id}/messages")]
+        [HttpPost("api/contacts/{id}/messages/")]
         public async Task<IActionResult> CreateMessage(string id, [FromBody] MessageContent content)
         {
             if (ModelState.IsValid)
@@ -162,6 +163,38 @@ namespace WebChatServer.Controllers
             await _context.SaveChangesAsync();
             return Ok();
 
+        }
+
+        //POST : api/transfer
+        [HttpPost("api/transfer/")]
+        public async Task<IActionResult> TransferMsg([FromBody] TransferData data)
+        {
+            var user = await _context.User
+                .FirstOrDefaultAsync(m => m.Name == data.From);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var contact = await _context.Contact
+            .FirstOrDefaultAsync(m => m.Name == data.To);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            string address = "http/" + contact.Server + "/api/contacts/" + user.Name + "/messages/";
+
+            Dictionary<string, string> content = new Dictionary<string, string> {
+                { "Content" , data.Content }
+            };
+
+            HttpClient client = new HttpClient();
+            var payload = new FormUrlEncodedContent(content);
+            var response = await client.PostAsync(address, payload);
+            if (response.StatusCode == HttpStatusCode.Created)
+            {
+                return Created("", response.Content);
+            }
+            return NotFound();
         }
 
         private bool MessageExists(int id)

@@ -4,6 +4,8 @@ using System;
 using System.Web.Http.Cors;
 using WebChatServer.Data;
 using WebChatServer.Models;
+using System.Net.Http;
+using System.Net;
 
 namespace WebChatServer.Controllers
 {
@@ -119,7 +121,6 @@ namespace WebChatServer.Controllers
 
         // GET: Contacts/Delete/5
         [HttpDelete("api/contacts/{id}")]
-
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null || _context.Contact == null)
@@ -138,8 +139,33 @@ namespace WebChatServer.Controllers
             return Ok();
         }
 
+        //POST : api/invitation
+        [HttpPost("api/invitations/")]
+        public async Task<IActionResult> Invite([FromBody] InvitationData data)
+        {
+            string address = "http/" + data.Server + "/api/contacts/";
+            var user = await _context.User
+                .FirstOrDefaultAsync(m => m.Name == data.From);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-      
+            Dictionary<string, string> content = new Dictionary<string, string> {
+                { "Name", user.Name },
+                { "Nick", user.Nick },
+                { "Server", user.Server },
+            };
+
+            HttpClient client = new HttpClient();
+            var payload = new FormUrlEncodedContent(content);
+            var response = await client.PostAsync(address, payload);
+            if (response.StatusCode == HttpStatusCode.Created) 
+            {
+                return Created("", response.Content);
+            }
+            return NotFound();
+        }
 
         private bool ContactExists(string id)
         {
