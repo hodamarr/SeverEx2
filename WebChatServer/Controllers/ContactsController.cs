@@ -6,6 +6,7 @@ using WebChatServer.Data;
 using WebChatServer.Models;
 using System.Net.Http;
 using System.Net;
+using System.Security.Claims;
 
 namespace WebChatServer.Controllers
 {
@@ -23,8 +24,9 @@ namespace WebChatServer.Controllers
         [HttpGet("api/contacts/")]
         public async Task<IActionResult> Get()
         {
+            string connected = HttpContext.Session.GetString("username");
             var user = await _context.User
-            .FirstOrDefaultAsync(m => m.Name == "me");
+            .FirstOrDefaultAsync(m => m.Name == connected);
             if (user == null)
             {
                 return NotFound();
@@ -59,22 +61,23 @@ namespace WebChatServer.Controllers
         {
             if (ModelState.IsValid)
             {
+                var claimsIdentity = this.User.Identity as ClaimsIdentity;
+                var userName = claimsIdentity.FindFirst("UserId")?.Value;
+                //string connected = HttpContext.Session.GetString("username");
                 User user = await _context.User
-                .FirstOrDefaultAsync(m => m.Name == "me");
+                .FirstOrDefaultAsync(m => m.Name == userName);
                 Contact contact = new(data.Id, data.Name, data.Server, user);
                 _context.Contact.Add(contact);
                 _context.Update(user);
                 try
                 {
-
                     await _context.SaveChangesAsync();
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
                 }
-                //return Created(string.Format("/api/contacts/{0}", contact.Id), null);
-                return Ok();
+                return Created(string.Format("/api/contacts/{0}", contact.Id), null);
             }
             return BadRequest();
 

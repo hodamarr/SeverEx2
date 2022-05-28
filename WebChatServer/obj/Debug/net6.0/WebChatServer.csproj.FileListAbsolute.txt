@@ -270,3 +270,4 @@ C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\System.Net.H
 C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\System.Web.Http.dll
 C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\System.Web.Http.Cors.dll
 C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

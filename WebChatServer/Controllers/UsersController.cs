@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using WebChatServer.Data;
 using WebChatServer.Models;
 
@@ -8,11 +12,14 @@ namespace WebChatServer.Controllers
     public class UsersController : Controller
     {
         private readonly WebChatServerContext _context;
+        public IConfiguration _configuration;
 
-        public UsersController(WebChatServerContext context)
+        public UsersController(WebChatServerContext context, IConfiguration config)
         {
             _context = context;
+            _configuration = config;
         }
+
 
         // GET: api/users
         [HttpGet("api/users/")]
@@ -46,22 +53,59 @@ namespace WebChatServer.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
-                try
+                //if user name is taken
+                if (UserExists(user.Name)) return NoContent();
+                else
                 {
-                    await _context.SaveChangesAsync();
+                    //HttpContext.Session.SetString("username", user.Name);
+                    _context.Add(user);
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                    return Created(string.Format("/api/users/{0}", user.Name), null);
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-                return Created(string.Format("/api/users/{0}", user.Name), null);
             }
             return BadRequest();
         }
 
-      
-        private bool UserExists(string id)
+        // POST: api/users/login
+        [HttpPost("api/users/login/")]
+        public async Task<IActionResult> Login([FromBody] LoginData data)
+        {
+            var user = await _context.User
+           .FirstOrDefaultAsync(m => m.Name == data.UserName);
+            if (user == null) return BadRequest();
+            else if (data.Password != user.Password) return BadRequest();
+            else
+            {
+                //HttpContext.Session.SetString("username", user.Name);
+                var claims = new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub , _configuration["JWTParams:Subject"]),
+                    new Claim(JwtRegisteredClaimNames.Jti , Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString()),
+                    new Claim("UserID", user.Name)
+
+                };
+                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTParams:SecretKey"]));
+                var mac = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+                var token = new JwtSecurityToken(
+                    _configuration["JWTParams:Issuer"],
+                    _configuration["JWTParams:Audience"],
+                    claims,
+                    expires: DateTime.Now.AddMinutes(20),
+                    signingCredentials: mac);
+
+                return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+            }
+        }
+
+            private bool UserExists(string id)
         {
           return (_context.User?.Any(e => e.Name == id)).GetValueOrDefault();
         }
