@@ -271,3 +271,8 @@ C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\System.Web.H
 C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\System.Web.Http.Cors.dll
 C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
 C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\libman.json
+C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\Microsoft.Owin.dll
+C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\Microsoft.Owin.Security.dll
+C:\Users\ofeka\source\repos\SeverEx2\WebChatServer\bin\Debug\net6.0\Owin.dll

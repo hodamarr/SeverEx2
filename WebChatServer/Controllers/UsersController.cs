@@ -101,7 +101,7 @@ namespace WebChatServer.Controllers
                     expires: DateTime.Now.AddMinutes(20),
                     signingCredentials: mac);
 
-                return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                return Ok();
             }
         }
 

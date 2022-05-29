@@ -2,7 +2,6 @@
 {
     public class InvitationData
     {
-        public int Id { get; set; }
 
         public string From { get; set; }
 

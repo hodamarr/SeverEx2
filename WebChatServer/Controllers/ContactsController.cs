@@ -20,13 +20,13 @@ namespace WebChatServer.Controllers
         }
 
 
-        // GET: api/Contacts
-        [HttpGet("api/contacts/")]
-        public async Task<IActionResult> Get()
+        // GET: api/ofek/Contacts
+        [HttpGet("api/{userName}/contacts/")]
+        public async Task<IActionResult> Get(string userName)
         {
-            string connected = HttpContext.Session.GetString("username");
+           // string connected = HttpContext.Session.GetString("username");
             var user = await _context.User
-            .FirstOrDefaultAsync(m => m.Name == connected);
+            .FirstOrDefaultAsync(m => m.Name == userName);
             if (user == null)
             {
                 return NotFound();
@@ -35,9 +35,9 @@ namespace WebChatServer.Controllers
         }
 
 
-        // GET: api/Contacts/id
-        [HttpGet("api/contacts/{id}")]
-        public async Task<IActionResult> Details(string id)
+        // GET: api/ofek/Contacts/5
+        [HttpGet("api/{userName}/contacts/{id}")]
+        public async Task<IActionResult> Details(string id, string userName)
         {
             if (id == null || _context.Contact == null)
             {
@@ -46,7 +46,7 @@ namespace WebChatServer.Controllers
 
             var contact = await _context.Contact
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (contact == null)
+            if (contact == null || contact.UserName != userName)
             {
                 return NotFound();
             }
@@ -55,17 +55,14 @@ namespace WebChatServer.Controllers
         }
 
 
-        // POST: api/Contacts
-        [HttpPost("api/contacts/")]
-        public async Task<IActionResult> Create([FromBody] AddContactData data)
+        // POST: api/ofek/Contacts
+        [HttpPost("api/{userName}/contacts")]
+        public async Task<IActionResult> Create(string userName, [FromBody] AddContactData data)
         {
             if (ModelState.IsValid)
             {
-                var claimsIdentity = this.User.Identity as ClaimsIdentity;
-                var userName = claimsIdentity.FindFirst("UserId")?.Value;
-                //string connected = HttpContext.Session.GetString("username");
-                User user = await _context.User
-                .FirstOrDefaultAsync(m => m.Name == userName);
+                User user = await _context.User.FirstOrDefaultAsync(m => m.Name == userName);
+                if (user == null) return NotFound();
                 Contact contact = new(data.Id, data.Name, data.Server, user);
                 _context.Contact.Add(contact);
                 _context.Update(user);
@@ -80,19 +77,16 @@ namespace WebChatServer.Controllers
                 return Created(string.Format("/api/contacts/{0}", contact.Id), null);
             }
             return BadRequest();
-
-         
         }
 
 
-        // Put: api/Contacts/5
-        [HttpPut("api/contacts/{id}")]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [FromBody] EditContactData contact)
+        // Put: api/ofek/Contacts/5
+        [HttpPut("api/{userName}/contacts/{id}")]
+        public async Task<IActionResult> Edit(string id, string userName, [FromBody] EditContactData contact)
         {
             var toChange = await _context.Contact.FindAsync(id);
 
-            if (toChange == null)
+            if (toChange == null || toChange.UserName != userName)
             {
                 return NotFound();
             }
@@ -122,18 +116,24 @@ namespace WebChatServer.Controllers
             return BadRequest();
         }
 
-        // GET: Contacts/Delete/5
-        [HttpDelete("api/contacts/{id}")]
-        public async Task<IActionResult> Delete(string id)
+        // GET: Contacts/ofek/Delete/5
+        [HttpDelete("api/{userId}/contacts/{id}")]
+        public async Task<IActionResult> Delete(string userId, string id)
         {
             if (id == null || _context.Contact == null)
+            {
+                return NotFound();
+            }
+            var user = await _context.User
+                .FirstOrDefaultAsync(m => m.Name == userId);
+            if (user == null)
             {
                 return NotFound();
             }
 
             var contact = await _context.Contact
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (contact == null)
+            if (contact == null || contact.UserName != user.Name)
             {
                 return NotFound();
             }
@@ -146,7 +146,6 @@ namespace WebChatServer.Controllers
         [HttpPost("api/invitations/")]
         public async Task<IActionResult> Invite([FromBody] InvitationData data)
         {
-            string address = "http/" + data.Server + "/api/contacts/";
             var user = await _context.User
                 .FirstOrDefaultAsync(m => m.Name == data.From);
             if (user == null)
@@ -154,18 +153,26 @@ namespace WebChatServer.Controllers
                 return NotFound();
             }
 
-            Dictionary<string, string> content = new Dictionary<string, string> {
-                { "Name", user.Name },
-                { "Nick", user.Nick },
-                { "Server", user.Server },
-            };
+            string address = "https://" + data.Server + "/api/" + data.To + "/contacts/";
 
-            HttpClient client = new HttpClient();
-            var payload = new FormUrlEncodedContent(content);
-            var response = await client.PostAsync(address, payload);
-            if (response.StatusCode == HttpStatusCode.Created) 
+
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(address);
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
-                return Created("", response.Content);
+                string json = "{\"id\":\"" + user.Name + "\"," +
+                              "\"name\":\"" + user.Name + "\"," +
+                              "\"server\":\"" + user.Server + "\"}";
+
+                streamWriter.Write(json);
+            }
+
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                var result = streamReader.ReadToEnd();
+                return Ok(result);
             }
             return NotFound();
         }

@@ -19,5 +19,6 @@ namespace WebChatServer.Models
             Name = name;
             Server = server;
         }
+
     }
 }
