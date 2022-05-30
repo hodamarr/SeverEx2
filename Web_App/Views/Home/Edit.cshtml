@@ -1,16 +1,14 @@
-﻿@model List<Rate>
-
-<h2>
-    Write Somthing About Us... </h2>
-<form method="post" asp-action="AddReview">
+﻿@model Rate
+<h1>Edit Review</h1>
+<form method="post" asp-action="Edit">
     <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Name</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" name="name">
+        <input type="text" class="form-control" name="name" value="@Model.Name">
         <div id="name" class="form-text"></div>
     </div>
     <div class="mb-3">
         <label class="form-label">Review</label>
-        <input type="text" class="form-control" id="review" name="content">
+        <input type="text" class="form-control" id="review" name="content" value="@Model.Content">
     </div>
     <br />
     <div id="scoreRate">
@@ -35,36 +33,7 @@
             <label class="form-check-label" for="score">5</label>
         </div>
     </div>
-    <br />
     <div id="submit">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </form>
-<h2>Rating & Reviews        </h2>
-
-<div id="reviews">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Score</th>
-                <th scope="col">Review</th>
-                <th scope="col"> </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (Rate r in Model)
-            {
-                <tr>
-                    <th scope="row">@r.ID</th>
-                    <td>@r.Name</td>
-                    <td>@r.Score</td>
-                    <td>@r.Content</td>
-                    <td><a asp-action="Edit" asp-route-id="@r.ID">Edit</a> <a asp-action="Watch" asp-route-id="@r.ID">Watch</a></td>
-                </tr>
-            }
-           
-        </tbody>
-    </table>
-</div>

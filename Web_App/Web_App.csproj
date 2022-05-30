@@ -6,10 +6,4 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Views\Rate\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Rate\" />
-  </ItemGroup>
 </Project>

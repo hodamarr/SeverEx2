@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ofeka\\source\\repos\\SeverEx2\\WebChatServer\\WebChatServer.csproj": {}
+    "/Users/hodamar/Projects/SeverEx2/WebChatServer/WebChatServer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ofeka\\source\\repos\\SeverEx2\\WebChatServer\\WebChatServer.csproj": {
+    "/Users/hodamar/Projects/SeverEx2/WebChatServer/WebChatServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ofeka\\source\\repos\\SeverEx2\\WebChatServer\\WebChatServer.csproj",
+        "projectUniqueName": "/Users/hodamar/Projects/SeverEx2/WebChatServer/WebChatServer.csproj",
         "projectName": "WebChatServer",
-        "projectPath": "C:\\Users\\ofeka\\source\\repos\\SeverEx2\\WebChatServer\\WebChatServer.csproj",
-        "packagesPath": "C:\\Users\\ofeka\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ofeka\\source\\repos\\SeverEx2\\WebChatServer\\obj\\",
+        "projectPath": "/Users/hodamar/Projects/SeverEx2/WebChatServer/WebChatServer.csproj",
+        "packagesPath": "/Users/hodamar/.nuget/packages/",
+        "outputPath": "/Users/hodamar/Projects/SeverEx2/WebChatServer/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ofeka\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/hodamar/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -93,7 +91,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.300/RuntimeIdentifierGraph.json"
         }
       }
     }
