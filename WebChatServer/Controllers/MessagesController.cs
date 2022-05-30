@@ -34,12 +34,12 @@ namespace WebChatServer.Controllers
                 return NotFound();
             }
             var contact = await _context.Contact
-            .FirstOrDefaultAsync(m => m.Id == id);
-            if (contact == null || contact.UserName != user.Name)
+            .FirstOrDefaultAsync(m => m.Id == id && m.UserName == userId);
+            if (contact == null)
             {
                 return NotFound();
             }
-            return Json(await _context.Message.Where(Message => Message.ContactId == contact.Id).ToListAsync());
+            return Json(await _context.Message.Where(Message => Message.ContactId == contact.number).ToListAsync());
         }
 
         // GET: api/ofek/Contacts/5/messages/77
@@ -53,8 +53,8 @@ namespace WebChatServer.Controllers
                 return NotFound();
             }
             var contact = await _context.Contact
-            .FirstOrDefaultAsync(m => m.Id == id);
-            if (contact == null || contact.UserName != user.Name)
+            .FirstOrDefaultAsync(m => m.Id == id && m.UserName == userId);
+            if (contact == null)
             {
                 return NotFound();
             }
@@ -62,7 +62,7 @@ namespace WebChatServer.Controllers
             {
                 return NotFound();
             }
-            var message = await _context.Message.Where(Message => Message.ContactId == contact.Id)
+            var message = await _context.Message.Where(Message => Message.ContactId == contact.number)
                 .FirstOrDefaultAsync(m => m.Id == msgId);
             if (message == null)
             {
@@ -85,12 +85,12 @@ namespace WebChatServer.Controllers
                     return NotFound();
                 }
                 var contact = await _context.Contact
-                .FirstOrDefaultAsync(m => m.Id == id);
-                if (contact == null || contact.UserName != user.Name)
+                .FirstOrDefaultAsync(m => m.Name == id && m.UserName == userId);
+                if (contact == null)
                 {
                     return NotFound();
                 }
-                Message m = new(content.Content, true, contact.Id);
+                Message m = new(content.Content, true, contact.number);
                 _context.Add(m);
                 contact.Lastdate = m.Created;
                 contact.Last = m.Content;
@@ -121,8 +121,8 @@ namespace WebChatServer.Controllers
                 return NotFound();
             }
             var contact = await _context.Contact
-            .FirstOrDefaultAsync(m => m.Id == id);
-            if (contact == null || contact.UserName != user.Name)
+            .FirstOrDefaultAsync(m => m.Id == id && m.UserName == userId);
+            if (contact == null)
             {
                 return NotFound();
             }
@@ -130,7 +130,7 @@ namespace WebChatServer.Controllers
             {
                 return NotFound();
             }
-            var toChange = await _context.Message.Where(Message => Message.ContactId == contact.Id)
+            var toChange = await _context.Message.Where(Message => Message.ContactId == contact.number)
                 .FirstOrDefaultAsync(m => m.Id == msgId);
             if (toChange == null)
             {
@@ -172,8 +172,8 @@ namespace WebChatServer.Controllers
                 return NotFound();
             }
             var contact = await _context.Contact
-            .FirstOrDefaultAsync(m => m.Id == id);
-            if (contact == null || contact.UserName != user.Name)
+             .FirstOrDefaultAsync(m => m.Id == id && m.UserName == userId);
+            if (contact == null)
             {
                 return NotFound();
             }
@@ -181,7 +181,7 @@ namespace WebChatServer.Controllers
             {
                 return NotFound();
             }
-            var message = await _context.Message.Where(Message => Message.ContactId == contact.Id)
+            var message = await _context.Message.Where(Message => Message.ContactId == contact.number)
                 .FirstOrDefaultAsync(m => m.Id == msgId);
             if (message == null)
             {
@@ -201,6 +201,7 @@ namespace WebChatServer.Controllers
         [HttpPost("api/transfer/")]
         public async Task<IActionResult> TransferMsg([FromBody] TransferData data)
         {
+
             var user = await _context.User
                 .FirstOrDefaultAsync(m => m.Name == data.From);
             if (user == null)

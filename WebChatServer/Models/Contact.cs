@@ -13,6 +13,8 @@ namespace WebChatServer.Models
     {
 
         [Key]
+        [JsonIgnore]
+        public int number {get; set; }
         public string Id { get; set; }
 
         [Required]

@@ -22,9 +22,9 @@ namespace WebChatServer.Models
         public bool Sent { get; set; }
 
         [JsonIgnore]
-        public string ContactId { get; set; }
+        public int ContactId { get; set; }
 
-        public Message(string content, bool sent, string contactId)
+        public Message(string content, bool sent, int contactId)
         {
             Content = content;
             Sent = sent;

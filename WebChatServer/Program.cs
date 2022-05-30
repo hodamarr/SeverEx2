@@ -14,7 +14,6 @@ builder.Services.AddDbContext<WebChatServerContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("WebChatServerContext") ?? throw new InvalidOperationException("Connection string 'WebChatServerContext' not found.")));
 // Add services to the container.
 
-builder.Services.AddSignalR();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -27,6 +26,9 @@ builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
     .WithOrigins("http://localhost:3000")
     .AllowCredentials(); ;
 }));
+
+
+builder.Services.AddSignalR();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

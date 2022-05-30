@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebChatServer.Data;
 
@@ -11,9 +12,10 @@ using WebChatServer.Data;
 namespace WebChatServer.Migrations
 {
     [DbContext(typeof(WebChatServerContext))]
-    partial class WebChatServerContextModelSnapshot : ModelSnapshot
+    [Migration("20220530122605_v11")]
+    partial class v11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,7 +69,11 @@ namespace WebChatServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("ContactId")
+                    b.Property<string>("ContactId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Contactnumber")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
@@ -82,7 +88,7 @@ namespace WebChatServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContactId");
+                    b.HasIndex("Contactnumber");
 
                     b.ToTable("Message");
                 });
@@ -122,9 +128,7 @@ namespace WebChatServer.Migrations
                 {
                     b.HasOne("WebChatServer.Models.Contact", null)
                         .WithMany("Msgs")
-                        .HasForeignKey("ContactId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Contactnumber");
                 });
 
             modelBuilder.Entity("WebChatServer.Models.Contact", b =>

@@ -5,13 +5,9 @@ namespace WebChatServer.Hubs
 {
     public class ChatHub : Hub
     {
-        public async Task SendMessage(string senderId, string recieverId)
+        public async Task Send(string sender, string reciever)
         {
-            await Clients.All.SendAsync("RecieveMessage", senderId, recieverId);
+            await Clients.All.SendAsync("Recieve", sender, reciever);
         }
-        //public async Task SendContact()
-        //{
-        //    await Clients.All.SendAsync("invitation");
-        //}
     }
 }

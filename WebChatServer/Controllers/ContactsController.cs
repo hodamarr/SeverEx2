@@ -45,8 +45,8 @@ namespace WebChatServer.Controllers
             }
 
             var contact = await _context.Contact
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (contact == null || contact.UserName != userName)
+                .FirstOrDefaultAsync(m => m.Id == id && m.UserName == userName);
+            if (contact == null)
             {
                 return NotFound();
             }
@@ -63,6 +63,8 @@ namespace WebChatServer.Controllers
             {
                 User user = await _context.User.FirstOrDefaultAsync(m => m.Name == userName);
                 if (user == null) return NotFound();
+                Contact isExist = await _context.Contact.FirstOrDefaultAsync(m => m.Name == data.Name);
+                if (isExist != null) return BadRequest();
                 Contact contact = new(data.Id, data.Name, data.Server, user);
                 _context.Contact.Add(contact);
                 _context.Update(user);
@@ -84,9 +86,10 @@ namespace WebChatServer.Controllers
         [HttpPut("api/{userName}/contacts/{id}")]
         public async Task<IActionResult> Edit(string id, string userName, [FromBody] EditContactData contact)
         {
-            var toChange = await _context.Contact.FindAsync(id);
+            var toChange =  await _context.Contact
+                .FirstOrDefaultAsync(m => m.Id == id && m.UserName == userName);
 
-            if (toChange == null || toChange.UserName != userName)
+            if (toChange == null)
             {
                 return NotFound();
             }
@@ -132,8 +135,8 @@ namespace WebChatServer.Controllers
             }
 
             var contact = await _context.Contact
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (contact == null || contact.UserName != user.Name)
+                .FirstOrDefaultAsync(m => m.Id == id && m.UserName == userId);
+            if (contact == null)
             {
                 return NotFound();
             }
