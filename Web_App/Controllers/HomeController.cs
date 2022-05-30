@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Web_App.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Web_App.Controllers;
 
@@ -10,11 +11,7 @@ public class HomeController : Controller
 
     public HomeController()
     {
-        if (rates.Count == 0)
-        {
-            rates.Add(new Rate { ID = 1, Name = "ofek", Content = "good", Score = "5" });
-            rates.Add(new Rate { ID = 2, Name = "hod", Content = "nice", Score = "3" });
-        }
+        rates.Add(new Rate { ID = 1, Name = "ofek", Content = "good", Score = "5", DateTime = DateTime.Now });
     }
 
     public IActionResult Index()
@@ -31,7 +28,8 @@ public class HomeController : Controller
             Content = content,
             Name = name,
             Score = score,
-            ID = count
+            ID = count,
+            DateTime = DateTime.Now
         });
 
         return Redirect("Index");
@@ -59,7 +57,7 @@ public class HomeController : Controller
         r.Score = score;
         r.Name = name;
         r.Content = content;
-
+        r.DateTime = DateTime.Now;
         return RedirectToAction("Index", r);
     }
 }
