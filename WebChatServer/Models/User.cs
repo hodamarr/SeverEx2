@@ -10,6 +10,7 @@ namespace WebChatServer.Models
         public string Name { get; set; }
         public string Nick { get; set; }
 
+        [JsonIgnore]
         public string? Token { get; set; }
 
 
