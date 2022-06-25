@@ -63,7 +63,7 @@ namespace WebChatServer.Controllers
             {
                 User user = await _context.User.FirstOrDefaultAsync(m => m.Name == userName);
                 if (user == null) return NotFound();
-                Contact isExist = await _context.Contact.FirstOrDefaultAsync(m => m.Name == data.Name);
+                Contact isExist = await _context.Contact.FirstOrDefaultAsync(m => m.Name == data.Name && m.UserName == userName);
                 if (isExist != null) return BadRequest();
                 Contact contact = new(data.Id, data.Name, data.Server, user);
                 _context.Contact.Add(contact);

@@ -10,6 +10,8 @@ namespace WebChatServer.Models
         public string Name { get; set; }
         public string Nick { get; set; }
 
+        public string Token { get; set; }
+
 
         [DataType(DataType.Password)]
         public string Password { get; set; }
@@ -19,6 +21,16 @@ namespace WebChatServer.Models
         [JsonIgnore]
         public List<Contact> Chats { get; set; }
 
+        public User(string name, string nick, string password, string server, string token)
+        {
+            Name = name;
+            Nick = nick;
+            Password = password;
+            Server = server;
+            Chats = new List<Contact>();
+            this.Token = token;
+        }
+
         public User(string name, string nick, string password, string server)
         {
             Name = name;
@@ -26,6 +38,7 @@ namespace WebChatServer.Models
             Password = password;
             Server = server;
             Chats = new List<Contact>();
+            this.Token = null;
         }
     }
 }
